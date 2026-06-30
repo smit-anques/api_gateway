@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, 
 import { ProductService } from '../../product.service';
 import { AdminGuard } from 'src/authGuards/admin.guard';
 
-@Controller('api/admin/category')
-export class CategoryController {
+@Controller('api/admin/sub-category')
+export class SubCategoryController {
   constructor(private readonly productService: ProductService) {}
 
   @Post('create')
@@ -11,7 +11,7 @@ export class CategoryController {
   async create(@Body() body: any) {
     try {
       console.log('HTTP BODY:', body);
-      return await this.productService.createCategory(body);
+      return await this.productService.createSubCategory(body);
     } catch (error) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
@@ -22,7 +22,7 @@ export class CategoryController {
   @UseGuards(AdminGuard)
   async findAll() {
     try {
-      return await this.productService.listCategories();
+      return await this.productService.listSubCategories();
     } catch (error) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
@@ -33,7 +33,7 @@ export class CategoryController {
   @UseGuards(AdminGuard)
   async update(@Param('id') id: number, @Body() body: any) {
     try {
-      return await this.productService.updateCategory({ id, ...body });
+      return await this.productService.updateSubCategory({ id, ...body });
     } catch (error) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
@@ -44,7 +44,7 @@ export class CategoryController {
   @UseGuards(AdminGuard)
   async remove(@Param('id') id: number) {
     try {
-      return await this.productService.deleteCategory({ id });
+      return await this.productService.deleteSubCategory({ id });
     } catch (error) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);

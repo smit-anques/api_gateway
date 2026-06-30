@@ -16,16 +16,26 @@ interface CategoryService {
     DeleteCategory(data: any): Observable<any>;
 }
 
+interface SubCategoryService {
+    CreateSubCategory(data: any): Observable<any>;
+    ListSubCategories(data: any): Observable<any>;
+    UpdateSubCategory(data: any): Observable<any>;
+    DeleteSubCategory(data: any): Observable<any>;
+}
+
 @Injectable()
 export class ProductService implements OnModuleInit {
     private productService!: PlateformCategoryService;
     private categoryService!: CategoryService;
+    private subcategoryService!:SubCategoryService;
 
     constructor(@Inject('PRODUCT_PACKAGE') private readonly client: ClientGrpc) { }
 
     onModuleInit() {
         this.productService = this.client.getService<PlateformCategoryService>('PlateformCategoryService');
         this.categoryService = this.client.getService<CategoryService>('CategoryService');
+        this.subcategoryService = this.client.getService<SubCategoryService>('SubCategoryService');
+
     }
 
     async createPlatformCategory(body: any) {
@@ -68,6 +78,32 @@ export class ProductService implements OnModuleInit {
 
     async deleteCategory(body: any) {
         return firstValueFrom(this.categoryService.DeleteCategory(body));
+    }
+
+    async createSubCategory(body: any) {
+        const payload = {
+            name: body.name,
+            image: body.image,
+            category_id: Number(body.category_id), // IMPORTANT
+        };
+
+        console.log('GRPC PAYLOAD:', payload);
+
+        return firstValueFrom(
+            this.subcategoryService.CreateSubCategory(payload),
+        );
+    }
+
+    async listSubCategories() {
+        return firstValueFrom(this.subcategoryService.ListSubCategories({}));
+    }
+
+    async updateSubCategory(body: any) {
+        return firstValueFrom(this.subcategoryService.UpdateSubCategory(body));
+    }
+
+    async deleteSubCategory(body: any) {
+        return firstValueFrom(this.subcategoryService.DeleteSubCategory(body));
     }
 
 

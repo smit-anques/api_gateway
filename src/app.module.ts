@@ -9,6 +9,8 @@ import { ProductService } from './product/product.service';
 import { CategoryController } from './product/admin/category/category.controller';
 import { UserPlateformCategoryController } from './product/user/plateform_category/plateform_category.controller';
 import { UserCategoryController } from './product/user/category/category.controller';
+import { SubCategoryController } from './product/admin/sub_category/sub_category.controller';
+import { UserSubCategoryController } from './product/user/sub_category/sub_category.controller';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { UserCategoryController } from './product/user/category/category.control
     AuthGuardsModule,
     AuthModule,
   ],
-  controllers: [AppController, PlateformCategoryController,CategoryController,UserPlateformCategoryController,UserCategoryController],
+  controllers: [AppController, PlateformCategoryController,CategoryController,UserPlateformCategoryController,UserCategoryController,SubCategoryController,UserSubCategoryController],
   providers: [AppService, ProductService],
 })
 export class AppModule { }
