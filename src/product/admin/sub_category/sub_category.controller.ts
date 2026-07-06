@@ -12,7 +12,7 @@ export class SubCategoryController {
     try {
       console.log('HTTP BODY:', body);
       return await this.productService.createSubCategory(body);
-    } catch (error) {
+    } catch (error:any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }
@@ -23,7 +23,7 @@ export class SubCategoryController {
   async findAll() {
     try {
       return await this.productService.listSubCategories();
-    } catch (error) {
+    } catch (error:any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }
@@ -34,7 +34,7 @@ export class SubCategoryController {
   async update(@Param('id') id: number, @Body() body: any) {
     try {
       return await this.productService.updateSubCategory({ id, ...body });
-    } catch (error) {
+    } catch (error:any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }
@@ -45,7 +45,7 @@ export class SubCategoryController {
   async remove(@Param('id') id: number) {
     try {
       return await this.productService.deleteSubCategory({ id });
-    } catch (error) {
+    } catch (error:any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }

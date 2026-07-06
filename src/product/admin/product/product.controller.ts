@@ -2,17 +2,17 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, 
 import { ProductService } from '../../product.service';
 import { AdminGuard } from 'src/authGuards/admin.guard';
 
-@Controller('api/admin/category')
-export class CategoryController {
-  constructor(private readonly productService: ProductService) {}
+@Controller('api/admin/product')
+export class ProductController {
+  constructor(private readonly productService: ProductService) { }
 
   @Post('create')
   @UseGuards(AdminGuard)
   async create(@Body() body: any) {
     try {
-      console.log('HTTP BODY:', body);
-      return await this.productService.createCategory(body);
-    } catch (error:any) {
+      const response = await this.productService.createProduct(body);
+      return response;
+    } catch (error: any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }
@@ -22,8 +22,20 @@ export class CategoryController {
   @UseGuards(AdminGuard)
   async findAll() {
     try {
-      return await this.productService.listCategories();
-    } catch (error:any) {
+      return await this.productService.listProduct();
+    } catch (error: any) {
+      const message = error?.details || error?.message || 'Internal server error';
+      throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('/:id')
+  @UseGuards(AdminGuard)
+  async findOne(@Param('id') id: number) {
+    try {
+      return await this.productService.getProduct({ id });
+    }
+    catch (error: any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }
@@ -33,8 +45,8 @@ export class CategoryController {
   @UseGuards(AdminGuard)
   async update(@Param('id') id: number, @Body() body: any) {
     try {
-      return await this.productService.updateCategory({ id, ...body });
-    } catch (error:any) {
+      return await this.productService.updateProduct({ id, ...body });
+    } catch (error: any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }
@@ -44,8 +56,8 @@ export class CategoryController {
   @UseGuards(AdminGuard)
   async remove(@Param('id') id: number) {
     try {
-      return await this.productService.deleteCategory({ id });
-    } catch (error:any) {
+      return await this.productService.deleteProduct({ id });
+    } catch (error: any) {
       const message = error?.details || error?.message || 'Internal server error';
       throw new HttpException({ status: false, message }, HttpStatus.BAD_REQUEST);
     }

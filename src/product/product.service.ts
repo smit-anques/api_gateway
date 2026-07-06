@@ -23,11 +23,29 @@ interface SubCategoryService {
     DeleteSubCategory(data: any): Observable<any>;
 }
 
+interface ProductServices {
+    CreateProduct(data: any): Observable<any>;
+    ListProducts(data: any): Observable<any>;
+    GetProductById(data: any): Observable<any>;
+    UpdateProduct(data: any): Observable<any>;
+    DeleteProduct(data: any): Observable<any>;
+}
+
+interface DiscountCodeServices {
+    CreateDiscountCode(data: any): Observable<any>;
+    ListDiscountCode(data: any): Observable<any>;
+    GetDiscountCodeById(data: any): Observable<any>;
+    UpdateDiscountCode(data: any): Observable<any>;
+    DeleteDiscountCode(data: any): Observable<any>;
+}
+
 @Injectable()
 export class ProductService implements OnModuleInit {
     private productService!: PlateformCategoryService;
     private categoryService!: CategoryService;
     private subcategoryService!:SubCategoryService;
+    private productServices!: ProductServices;
+    private discountCodeServices!: DiscountCodeServices;
 
     constructor(@Inject('PRODUCT_PACKAGE') private readonly client: ClientGrpc) { }
 
@@ -35,7 +53,8 @@ export class ProductService implements OnModuleInit {
         this.productService = this.client.getService<PlateformCategoryService>('PlateformCategoryService');
         this.categoryService = this.client.getService<CategoryService>('CategoryService');
         this.subcategoryService = this.client.getService<SubCategoryService>('SubCategoryService');
-
+        this.productServices = this.client.getService<ProductServices>('ProductService');
+        this.discountCodeServices = this.client.getService<DiscountCodeServices>('DiscountCodeServices');
     }
 
     async createPlatformCategory(body: any) {
@@ -106,5 +125,44 @@ export class ProductService implements OnModuleInit {
         return firstValueFrom(this.subcategoryService.DeleteSubCategory(body));
     }
 
+    async createProduct(body: any) {
+        return firstValueFrom(this.productServices.CreateProduct(body));
+    }
+
+    async listProduct() {
+        return firstValueFrom(this.productServices.ListProducts({}));
+    }
+
+    async updateProduct(body: any) {
+        return firstValueFrom(this.productServices.UpdateProduct(body));
+    }
+
+    async deleteProduct(body: any) {
+        return firstValueFrom(this.productServices.DeleteProduct(body));
+    }
+
+    async getProduct(data: any) {
+        return firstValueFrom(this.productServices.GetProductById(data));
+    }
+
+    async createDiscountCode(body: any) {
+        return firstValueFrom(this.discountCodeServices.CreateDiscountCode(body));
+    }
+
+    async listDiscountCodes() {
+        return firstValueFrom(this.discountCodeServices.ListDiscountCode({}));
+    }
+
+    async getDiscountCode(data: any) {
+        return firstValueFrom(this.discountCodeServices.GetDiscountCodeById(data));
+    }
+
+    async updateDiscountCode(body: any) {
+        return firstValueFrom(this.discountCodeServices.UpdateDiscountCode(body));
+    }
+
+    async deleteDiscountCode(data: any) {
+        return firstValueFrom(this.discountCodeServices.DeleteDiscountCode(data));
+    }
 
 }

@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package discount;
+
+service DiscountCodeServices {
+  rpc CreateDiscountCode(CreateDiscountCodeRequest) returns (DiscountCodeResponse);
+  rpc ListDiscountCode(Empty) returns (DiscountCodeListResponse);
+  rpc GetDiscountCodeById(DiscountCodeByIdRequest) returns (DiscountCodeResponse);
+  rpc UpdateDiscountCode(UpdateDiscountCodeRequest) returns (DiscountCodeResponse);
+  rpc DeleteDiscountCode(DeleteDiscountCodeRequest) returns (DiscountCodeResponse);
+}
+
+message Empty {}
+
+message DiscountCodeByIdRequest {
+  int32 id = 1;
+}
+
+message DeleteDiscountCodeRequest {
+  int32 id = 1;
+}
+
+message CreateDiscountCodeRequest {
+  string code = 1;
+  string type = 2;
+
+  double value = 3;
+  double usd_value = 4;
+  double aed_value = 5;
+
+  double min_inr_amount = 6;
+  double min_usd_amount = 7;
+  double min_aed_amount = 8;
+
+  int32 max_time = 9;
+
+  string expiry_date = 10;
+
+  bool status = 11;
+  bool guest_user = 12;
+}
+
+message UpdateDiscountCodeRequest {
+ int32 id = 1;
+
+  string code = 2;
+  string type = 3;
+
+  double value = 4;
+  double usd_value = 5;
+  double aed_value = 6;
+
+  double min_inr_amount = 7;
+  double min_usd_amount = 8;
+  double min_aed_amount = 9;
+
+  int32 max_time = 10;
+
+  string expiry_date = 11;
+
+  bool status = 12;
+  bool guest_user = 13;
+}
+
+message DiscountCode {
+   int32 id = 1;
+
+  string code = 2;
+  string type = 3;
+
+  double value = 4;
+  double usd_value = 5;
+  double aed_value = 6;
+
+  double min_inr_amount = 7;
+  double min_usd_amount = 8;
+  double min_aed_amount = 9;
+
+  int32 max_time = 10;
+
+  string expiry_date = 11;
+
+  bool status = 12;
+  bool guest_user = 13;
+
+  string createdAt = 14;
+  string updatedAt = 15;
+  string deletedAt = 16;
+}
+
+message DiscountCodeResponse {
+  bool status = 1;
+  string message = 2;
+  DiscountCode data = 3;
+}
+
+message DiscountCodeListResponse {
+  bool status = 1;
+  string message = 2;
+  repeated DiscountCode data = 3;
+}
